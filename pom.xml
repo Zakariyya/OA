@@ -7,6 +7,7 @@
   <groupId>anan</groupId>
   <artifactId>OA</artifactId>
   <version>0.1-SNAPSHOT</version>
+  <!--<packaging>jar</packaging>-->
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -18,11 +19,35 @@
   <dependencies>
 
     <dependency>
-      <groupId>com.anan.springboot</groupId>
-      <artifactId>core</artifactId>
+      <groupId>com.anan</groupId>
+      <artifactId>anan-base</artifactId>
       <version>0.0.1-SNAPSHOT</version>
       <!--<scope>runtime</scope>-->
     </dependency>
 
   </dependencies>
+
+
+
+  <modules>
+    <!--<module>core</module>-->
+    <!--<module>filemanage</module>-->
+    <!--<module>comment</module>-->
+    <!--<module>content</module>-->
+    <!--<module>auth</module>-->
+    <!--<module>aspectauth</module>-->
+    <!--<module>authshiro</module>-->
+    <module>web</module>
+    <module>rbac</module>
+  </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>

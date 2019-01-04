@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan({"anan.oa.rbac","com.anan.springboot.core"})
+@ComponentScan({"anan.oa.rbac"})
 public class WebApplication {
 
   public static void main(String[] args) {

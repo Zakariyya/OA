@@ -1,7 +1,8 @@
 package anan.oa.rbac.service;
 
 
-import com.anan.springboot.auth.orm.Role;
+
+import anan.oa.rbac.orm.Role;
 
 import java.util.List;
 

@@ -1,8 +1,8 @@
 package anan.oa.rbac.service.impl;
 
-import com.anan.springboot.auth.orm.Role;
-import com.anan.springboot.auth.repository.RoleRepository;
-import com.anan.springboot.auth.service.RoleService;
+import anan.oa.rbac.orm.Role;
+import anan.oa.rbac.repository.RoleRepository;
+import anan.oa.rbac.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

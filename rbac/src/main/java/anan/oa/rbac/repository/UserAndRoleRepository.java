@@ -1,6 +1,7 @@
 package anan.oa.rbac.repository;
 
-import com.anan.springboot.auth.orm.UserAndRole;
+
+import anan.oa.rbac.orm.UserAndRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

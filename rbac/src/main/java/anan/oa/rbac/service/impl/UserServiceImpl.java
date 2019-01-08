@@ -1,11 +1,11 @@
 package anan.oa.rbac.service.impl;
 
-import com.anan.springboot.auth.orm.User;
-import com.anan.springboot.auth.repository.UserRepository;
-import com.anan.springboot.auth.service.UserService;
-import com.anan.springboot.core.enums.ResultEnum;
-import com.anan.springboot.core.exception.CoreException;
-import com.anan.springboot.core.orm.ResponseResult;
+import anan.base.core.enums.ResultEnum;
+import anan.base.core.exception.CoreException;
+import anan.base.core.orm.ResponseResult;
+import anan.oa.rbac.orm.User;
+import anan.oa.rbac.repository.UserRepository;
+import anan.oa.rbac.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

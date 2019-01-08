@@ -1,6 +1,6 @@
 package anan.oa.web.security;
 
-import com.anan.springboot.auth.orm.User;
+import anan.oa.rbac.orm.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

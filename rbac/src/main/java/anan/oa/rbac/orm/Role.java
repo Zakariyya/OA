@@ -1,10 +1,11 @@
 package anan.oa.rbac.orm;
 
-import com.anan.springboot.auth.AuthTable;
+import anan.oa.rbac.AuthTable;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SortNatural;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 

@@ -1,16 +1,19 @@
 package anan.oa.web.controller;
 
+import anan.base.core.enums.ResultEnum;
+import anan.base.core.exception.CoreException;
+import anan.base.core.orm.ResponseResult;
+import anan.base.core.util.ResultVOUtil;
+import anan.base.core.vo.ResultVO;
 import anan.oa.rbac.orm.User;
 import anan.oa.rbac.service.UserService;
-import com.anan.springboot.core.util.ResultVOUtil;
-import com.anan.springboot.core.vo.ResultVO;
+//import anan.oa.web.orm.User;
+//import anan.oa.web.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-//import com.anan.springboot.core.vo.ResultVO;
-
 
 import javax.validation.Valid;
 import java.util.List;
@@ -87,6 +90,7 @@ public class UserController {
    * @return ResultVO
    */
   @DeleteMapping("/{id}")
+//  @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
   public ResultVO delete(@PathVariable("id") String id){
     ResponseResult responseResult = new ResponseResult();
     return ResultVOUtil.result(userService.delete(id, responseResult));

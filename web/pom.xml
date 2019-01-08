@@ -11,11 +11,12 @@
   <description>controller of oa</description>
 
   <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.0.4.RELEASE</version>
-    <relativePath/> <!-- lookup parent from repository -->
+    <groupId>cn.anan</groupId>
+    <artifactId>anan-OA</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <!--<relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
   </parent>
+
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -41,16 +42,15 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
-    <!--springboot-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
-        <!--<scope>runtime</scope>-->
+      <!--<scope>runtime</scope>-->
     </dependency>
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-        <!--<scope>runtime</scope>-->
+      <!--<scope>runtime</scope>-->
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -67,6 +67,13 @@
       <artifactId>spring-security-test</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>cn.anan</groupId>
+      <artifactId>base-core</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+
 
     <dependency>
       <groupId>com.alibaba</groupId>
@@ -82,29 +89,8 @@
       <version>0.0.1-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>com.anan</groupId>
-      <artifactId>anan-core</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
 
-    <dependency>
-      <groupId>com.urundp</groupId>
-      <artifactId>urun-common</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-velocity</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>com.anan.springboot</groupId>
-      <artifactId>core</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
-    </dependency>
+
 
   </dependencies>
 

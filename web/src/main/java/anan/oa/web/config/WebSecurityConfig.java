@@ -1,10 +1,13 @@
 package anan.oa.web.config;
 
-import com.anan.springboot.auth.orm.User;
-import com.anan.springboot.auth.repository.UserRepository;
-import com.anan.springboot.auth.security.SecurityUser;
+import anan.oa.rbac.orm.User;
+import anan.oa.rbac.repository.UserRepository;
+//import anan.oa.web.orm.User;
+//import anan.oa.web.repository.UserRepository;
+import anan.oa.web.security.SecurityUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -44,48 +47,42 @@ import java.io.IOException;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
 @Slf4j
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+  @Value("${server.servlet.context-path}")
+  String contextPath;
+
   @Override
   protected void configure(HttpSecurity http) throws Exception { //配置策略
-    log.info("configure======");
-    super.configure(http);
-    http
-            .authorizeRequests()
-            .anyRequest().authenticated()
-            .and()
-            .formLogin()
-            //设置登陆页面
+//    super.configure(http);
+//    http
+//            .authorizeRequests()
+//            .anyRequest().authenticated()
+//            .and()
+//            .formLogin()
+//            //设置登陆页面
 //            .loginPage("/user/login")
-            //允许所有人进行访问此路径
-            .permitAll();
-//    关闭csrf保护
-//          .and().csrf().disable();
+//            //允许所有人进行访问此路径
+//            .permitAll();
+    //关闭csrf保护
+//                    .and().csrf().disable();
 
-
-//    http.csrf().disable();
+    http.csrf().disable();
     //logoutSuccessUrl("/login")//使用了logoutSuccessHandler实现了这个功能
-//    http.authorizeRequests().
-//            antMatchers("/static/**").permitAll().anyRequest().authenticated().
-//            and().formLogin().loginPage("/login").permitAll().successHandler(loginSuccessHandler()).
-//            and().logout().permitAll().invalidateHttpSession(true).
-//            deleteCookies("JSESSIONID").logoutSuccessHandler(logoutSuccessHandler()).
-//            and().sessionManagement().maximumSessions(10).expiredUrl("/login");
+    http.authorizeRequests().
+            antMatchers("/static/**").permitAll().anyRequest().authenticated().
+            and().formLogin()
+//            .loginPage("/login")
+            .permitAll().successHandler(loginSuccessHandler()).
+            and().logout().permitAll().invalidateHttpSession(true).
+            deleteCookies("JSESSIONID")
+            .logoutSuccessHandler(logoutSuccessHandler()).
+            and().sessionManagement().maximumSessions(10).expiredUrl(contextPath+"/login");
   }
 
-//  @Override
-//  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//    auth
-//      .inMemoryAuthentication()
-//      .withUser("root").password("{noop}root").roles("USER")
-//      .and()
-//      .withUser("admin").password("{noop}admin").roles("ADMIN", "USER")
-//      .and()
-//      .withUser("user").password("{noop}user").roles("USER");
-//
-//  }
+
 
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    log.info("configureGlobal===="+auth.toString());
     auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
     auth.eraseCredentials(false);
   }
@@ -95,13 +92,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder(4);
   }
 
-  /**
-   * login
-   * @return
-   */
   @Bean
-  public SavedRequestAwareAuthenticationSuccessHandler loginSuccessHandler() {
-    log.info("loginSuccessHandler====");
+  public SavedRequestAwareAuthenticationSuccessHandler loginSuccessHandler() { //登入处理
     return new SavedRequestAwareAuthenticationSuccessHandler() {
       @Override
       public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -113,13 +105,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
 
-  /**
-   * logout
-   * @return
-   */
   @Bean
-  public LogoutSuccessHandler logoutSuccessHandler() {
-    log.info("logoutSuccessHandler====");
+  public LogoutSuccessHandler logoutSuccessHandler() { //登出处理
     return new LogoutSuccessHandler() {
       @Override
       public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
@@ -129,15 +116,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         } catch (Exception e) {
           log.info("LOGOUT EXCEPTION , e : " + e.getMessage());
         }
-        httpServletResponse.sendRedirect("/login");
+        httpServletResponse.sendRedirect(contextPath+"/login");
       }
     };
   }
 
   @Bean
   public UserDetailsService userDetailsService() {    //用户登录实现
-    log.info("userDetailsService====");
-
     return new UserDetailsService() {
       @Autowired
       private UserRepository userRepository;
@@ -145,7 +130,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       @Override
       public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userRepository.findByAccount(s).get(0);
-        log.info("userDetailsService===="+user.toString());
         if (user == null) throw new UsernameNotFoundException("Username " + s + " not found");
         return new SecurityUser(user);
       }

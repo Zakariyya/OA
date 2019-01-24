@@ -1,4 +1,4 @@
-package anan.oa.web.controller;
+package anan.oa.web.controller.rabc;
 
 import anan.base.core.enums.ResultEnum;
 import anan.base.core.exception.CoreException;

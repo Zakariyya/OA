@@ -1,6 +1,6 @@
 package anan.oa.rbac.orm;
 
-import anan.oa.rbac.AuthTable;
+import anan.oa.rbac.RbacTable;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SortNatural;
@@ -14,7 +14,7 @@ import java.util.Set;
  * @author anan
  * Created on 2018/8/27.
  */
-@Entity(name= AuthTable.user)
+@Entity(name= RbacTable.user)
 @Data
 @DynamicUpdate
 public class User implements Serializable {
@@ -66,10 +66,10 @@ public class User implements Serializable {
 
 
 
-  @ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class)
-  @JoinTable(name = AuthTable.userAndRole, joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-  @SortNatural
-  private Set<Role> roles;
+//  @ManyToMany(fetch = FetchType.EAGER, targetEntity = Role.class)
+//  @JoinTable(name = RabcTable.userAndRole, joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+//  @SortNatural
+//  private Set<Role> roles;
 
 
 }

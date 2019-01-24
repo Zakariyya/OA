@@ -1,4 +1,4 @@
-package anan.oa.web.controller;
+package anan.oa.web.controller.rabc;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author anan
@@ -38,8 +39,8 @@ public class ProcessLog implements Serializable {
   private User updateUserId;
 
   @Column(name = "create_time")
-  private String createTime;
+  private Date createTime;
 
   @Column(name = "remark")
-  private String remark;
+  private Date remark;
 }

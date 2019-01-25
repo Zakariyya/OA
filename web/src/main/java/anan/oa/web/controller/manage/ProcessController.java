@@ -1,23 +1,23 @@
-package anan.oa.web.controller.rabc;
+package anan.oa.web.controller.manage;
 
 import anan.base.core.enums.ResultEnum;
-import anan.base.core.exception.CoreException;
 import anan.base.core.orm.ResponseResult;
+import anan.oa.manage.converter.Process2ProcessDto;
+import anan.oa.manage.dto.ProcessDto;
+import anan.oa.manage.form.ProcessForm;
+import anan.oa.manage.orm.Process;
 import anan.base.core.util.ResultVOUtil;
 import anan.base.core.vo.ResultVO;
-import anan.oa.rbac.orm.User;
-import anan.oa.rbac.service.UserService;
-//import anan.oa.web.orm.User;
-//import anan.oa.web.service.UserService;
+import anan.oa.manage.service.ProcessService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * @author anan
@@ -25,21 +25,27 @@ import java.util.List;
  * Modify on 2018/12/26.
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/process")
 @Slf4j
-public class UserController {
+public class ProcessController {
 
   @Autowired
-  private UserService userService;
+  private ProcessService processService;
 
+  @Autowired
+  private Process2ProcessDto p2p;
   /**
    * findAll
-   * @return ResultVO<User2UserDto>
+   *
    */
   @GetMapping("")
   public ResultVO findAll(){
-    List<User> all = userService.findAll();
-    return ResultVOUtil.success(all);
+    List<Process> all = processService.findAll();
+    List<ProcessDto> pdto = new ArrayList<>();
+    for (Process item : all) {
+      pdto.add(p2p.convert(item));
+    }
+    return ResultVOUtil.success(pdto);
   }
 
   /**
@@ -49,18 +55,18 @@ public class UserController {
    */
   @GetMapping("/{id}")
   public ResultVO findOne(@PathVariable("id") Integer id){
-    return ResultVOUtil.success(userService.findOne(id));
+    return ResultVOUtil.success(processService.findOne(id));
   }
 
 
   /**
    * add
-   * @param data :UserDto pojo
+   * @param data :ProcessDto pojo
    * @return ResultVO
    */
   @ResponseBody
   @PostMapping("")
-  public ResultVO add(@Valid @RequestBody User data, BindingResult bindingResult){
+  public ResultVO add(@Valid @RequestBody ProcessForm data, BindingResult bindingResult){
     data.setId(null);
     return save(null, data, bindingResult);
   }
@@ -73,24 +79,24 @@ public class UserController {
    *  throw new CoreException(ResultEnum.PARAM_ERROR.getCode(),
    *         bindingResult.getFieldError().getDefaultMessage());
    *
-   * @param data :UserDto pojo
+   * @param data :ProcessDto pojo
    * @return ResultVO
    */
   @ResponseBody
   @PutMapping("/{id}")
-  public ResultVO save(@PathVariable("id") Integer id, @Valid @RequestBody User data, BindingResult bindingResult){
+  public ResultVO save(@PathVariable("id") Integer id, @Valid @RequestBody ProcessForm data, BindingResult bindingResult){
     data.setId(id);
     if (bindingResult.hasErrors()) {
-      log.error("[rbac模块-用户]参数不正确, User={}", data);
+      log.error("[manage模块-字典]参数不正确, Process={}", data);
       return ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
     }
-    User update = userService.update(data);
+    Process update = processService.update(data);
     return ResultVOUtil.success(update);
   }
 
   /**
    * delete
-   * @param id :User primary key
+   * @param id :Process primary key
    * @return ResultVO
    *
    * remark: @RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
@@ -98,8 +104,10 @@ public class UserController {
    */
   @DeleteMapping("/{id}")
   public ResultVO delete(@PathVariable("id") String id){
-    return ResultVOUtil.result(userService.delete(id, new ResponseResult()));
+    return ResultVOUtil.result(processService.delete(id, new ResponseResult()));
   }
+
+
 
 
 

@@ -5,6 +5,7 @@ import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -25,12 +26,14 @@ public class Dictionary implements Serializable, Comparable<Dictionary>  {
   /**
    * 字典类型
    */
+  @NotNull(message = "dictType is no null")
   @Column(name="dict_type")
   private String dictType;
 
   /**
    * 选项值
    */
+  @NotNull(message = "optionValue is no null")
   @Column(name="option_value")
   private String optionValue;
 
@@ -38,25 +41,26 @@ public class Dictionary implements Serializable, Comparable<Dictionary>  {
    * 选项文本
    */
   @Column(name="label")
+  @NotNull(message = "label is no null")
   private String label;
 
   /**
    * 扩展字段a
    */
-  @Column(name="k1")
-  private String k1;
+  @Column(name="ex1")
+  private String ex1;
 
   /**
    * 扩展字段b
    */
-  @Column(name="k2")
-  private String k2;
+  @Column(name="ex2")
+  private String ex2;
 
   /**
    * 选项备注
    */
-  @Column(name="option_remark")
-  private String optionRemark;
+  @Column(name="remark")
+  private String remark;
 
   /**
    * 排序
@@ -68,6 +72,7 @@ public class Dictionary implements Serializable, Comparable<Dictionary>  {
    * 是否可编辑(含删除)
    */
   @Column(name="editable")
+  @NotNull(message = "editable is no null")
   private Integer  editable;
 
 

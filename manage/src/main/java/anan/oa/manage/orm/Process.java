@@ -3,7 +3,9 @@ package anan.oa.manage.orm;
 import anan.oa.manage.ManageTable;
 import anan.oa.rbac.orm.Dictionary;
 import anan.oa.rbac.orm.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -17,7 +19,9 @@ import java.util.Date;
 
 @Entity(name= ManageTable.process)
 @Data
+@ToString
 @DynamicUpdate
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Process implements Serializable {
 
   private static final long serialVersionUID = 3420587958977956323L;
@@ -35,26 +39,33 @@ public class Process implements Serializable {
   /**
    * process type（ by dict_id）
    */
-  @Column(name = "type_id")
+  @JoinColumn(name = "type_id")
   @ManyToOne(cascade = CascadeType.REFRESH, optional = true, fetch = FetchType.EAGER)
   private Dictionary typeId;
 
   /**
    * process schedule ( by dict_id)
    */
-  @Column(name = "schedule_id")
+  @JoinColumn(name = "schedule_id")
   @ManyToOne(cascade = CascadeType.REFRESH, optional = true, fetch = FetchType.EAGER)
   private Dictionary scheduleId;
 
-  @Column(name = "create_user_id")
+  /**
+   * process schedule ( by dict_id)
+   */
+  @JoinColumn(name = "process_time")
+  @ManyToOne(cascade = CascadeType.REFRESH, optional = true, fetch = FetchType.EAGER)
+  private Dictionary processTime;
+
+  @JoinColumn(name = "create_user_id")
   @ManyToOne(cascade = CascadeType.REFRESH, optional = true, fetch = FetchType.EAGER)
   private User createUserId;
 
-  @Column(name = "update_user_id")
+  @JoinColumn(name = "update_user_id")
   @ManyToOne(cascade = CascadeType.REFRESH, optional = true, fetch = FetchType.EAGER)
   private User updateUserId;
 
-  @Column(name = "approval_user_id")
+  @JoinColumn(name = "approval_user_id")
   @ManyToOne(cascade = CascadeType.REFRESH, optional = true, fetch = FetchType.EAGER)
   private User approvalUserId;
 
@@ -66,7 +77,5 @@ public class Process implements Serializable {
 
   @Column(name = "remark")
   private String remark;
-
-
 
 }

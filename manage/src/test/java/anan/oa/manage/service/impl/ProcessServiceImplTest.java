@@ -39,20 +39,20 @@ public class ProcessServiceImplTest {
 
   @Test
   public void save() {
-    log.info("processService.save();==>"+processService.save(make()));
+//    log.info("processService.save();==>"+processService.save(make()));
 
   }
 
   @Test
   public void update() {
-    log.info("processService.save();==>"+processService.update(make()));
+//    log.info("processService.save();==>"+processService.update(make()));
 
   }
 
   @Test
   public void delete() {
     ResponseResult result = new ResponseResult();
-    log.info("processService.save();==>"+processService.delete("1",result));
+//    log.info("processService.save();==>"+processService.delete("1",result));
 
   }
 }

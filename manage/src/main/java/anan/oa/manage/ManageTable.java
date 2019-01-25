@@ -6,9 +6,9 @@ package anan.oa.manage;
  */
 public interface ManageTable {
 
-  String process = "process";
+  String process = "manage_process";
 
-  String processLog = "process_log";
+  String processLog = "manage_process_log";
 
 
 

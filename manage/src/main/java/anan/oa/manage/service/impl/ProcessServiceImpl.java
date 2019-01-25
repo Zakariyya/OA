@@ -1,13 +1,19 @@
 package anan.oa.manage.service.impl;
 
-import anan.base.core.enums.ResultEnum;
-import anan.base.core.exception.CoreException;
 import anan.base.core.orm.ResponseResult;
 import anan.base.core.service.BaseService;
+import anan.oa.manage.converter.Process2ProcessDto;
+import anan.oa.manage.dto.ProcessDto;
+import anan.oa.manage.form.ProcessForm;
 import anan.oa.manage.orm.Process;
 import anan.oa.manage.repository.ProcessRepository;
 import anan.oa.manage.service.ProcessService;
+import anan.oa.rbac.orm.Dictionary;
+import anan.oa.rbac.repository.DictionaryRepoitory;
+import anan.oa.rbac.service.DictionaryService;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +27,14 @@ import java.util.List;
 
 @Transactional
 @Service
+@Slf4j
 public class ProcessServiceImpl implements ProcessService {
 
   @Autowired
   private ProcessRepository processRepository;
+  @Autowired
+  private DictionaryService dictionaryService;
+
   @Autowired
   private BaseService baseService;
 
@@ -39,13 +49,24 @@ public class ProcessServiceImpl implements ProcessService {
   }
 
   @Override
-  public Process save(Process data) {
+  public Process save(ProcessForm form) {
+    Process data = new Process();
+    BeanUtils.copyProperties(form,data);
     data.setId(null);
     return processRepository.save(data);
   }
 
   @Override
-  public Process update(Process data) {
+  public Process update(ProcessForm form) {
+    Process data = new Process();
+    data.setTypeId(dictionaryService.findOne(form.getTypeId()));
+    data.setScheduleId(dictionaryService.findOne(form.getScheduleId()));
+
+
+
+    BeanUtils.copyProperties(form,data);
+
+
     return processRepository.save(data);
   }
 

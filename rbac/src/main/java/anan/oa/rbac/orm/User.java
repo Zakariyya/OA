@@ -1,11 +1,14 @@
 package anan.oa.rbac.orm;
 
 import anan.oa.rbac.RbacTable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NonNull;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.SortNatural;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -27,12 +30,16 @@ public class User implements Serializable {
   private Integer id;
 
   @Column(name = "account")
+  @NotNull(message = "account cannot be null")
   private String account;
 
   @Column(name = "password")
+  @NotNull(message = "password cannot be null")
+  @JsonIgnore
   private String password;
 
   @Column(name = "name")
+  @NotNull(message = "name cannot be null")
   private String name;
 
   /**

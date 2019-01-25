@@ -1,6 +1,4 @@
 package anan.oa.rbac.service;
-
-
 import anan.base.core.orm.ResponseResult;
 import anan.oa.rbac.orm.User;
 
@@ -18,7 +16,7 @@ public interface UserService {
 
   User save(User data);
 
-  User update(User data);
+  User update(User data) ;
 
   ResponseResult delete(String id, ResponseResult result);
 

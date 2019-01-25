@@ -35,6 +35,7 @@
   <modules>
     <module>web</module>
     <module>rbac</module>
+    <module>manage</module>
   </modules>
 
   <build>

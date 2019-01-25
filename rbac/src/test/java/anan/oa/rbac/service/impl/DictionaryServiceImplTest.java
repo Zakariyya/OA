@@ -25,7 +25,7 @@ public class DictionaryServiceImplTest {
     data.setDictType("processType");
     data.setOptionValue("personal leave");
     data.setLabel("事假");
-    data.setOptionRemark("流程类型");
+    data.setRemark("流程类型");
     data.setShowOrder(1);
     data.setEditable(1);
     return data;

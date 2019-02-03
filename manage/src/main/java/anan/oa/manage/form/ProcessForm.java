@@ -1,8 +1,9 @@
 package anan.oa.manage.form;
 
-import anan.base.core.form.CoreForm;
+import anan.oa.rbac.orm.User;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 
@@ -11,6 +12,8 @@ import javax.validation.constraints.NotNull;
  * @created by anan on 2019/1/25 18:32
  */
 @Data
+@Setter
+@Getter
 public class ProcessForm {
 
   private Integer id;
@@ -18,18 +21,20 @@ public class ProcessForm {
   @NotNull(message = "流程名称必填")
   private String name;
 
-  @NotNull(message = "流程名称必填")
+  @NotNull(message = "流程类型必填")
   private Integer typeId;
 
-  @NotNull(message = "流程名称必填")
+  @NotNull(message = "流程进度必填")
   private Integer scheduleId;
 
+  @NotNull(message = "流程时间段必填")
   private Integer processTime;
 
-  @NotNull(message = "操作人必传")
-  private Integer updateUserId;
+  private User createUserId;
 
-  private Integer approvalUserId;
+  private User updateUserId;
+
+  private User approvalUserId;
 
   private String remark;
 

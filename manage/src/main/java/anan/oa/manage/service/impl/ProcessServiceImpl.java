@@ -2,19 +2,16 @@ package anan.oa.manage.service.impl;
 
 import anan.base.core.orm.ResponseResult;
 import anan.base.core.service.BaseService;
-import anan.oa.manage.converter.Process2ProcessDto;
-import anan.oa.manage.dto.ProcessDto;
 import anan.oa.manage.form.ProcessForm;
 import anan.oa.manage.orm.Process;
 import anan.oa.manage.repository.ProcessRepository;
 import anan.oa.manage.service.ProcessService;
-import anan.oa.rbac.orm.Dictionary;
-import anan.oa.rbac.repository.DictionaryRepoitory;
 import anan.oa.rbac.service.DictionaryService;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -39,6 +36,12 @@ public class ProcessServiceImpl implements ProcessService {
   private BaseService baseService;
 
   @Override
+  public Page<Process> findAll(Pageable pageable) {
+    return processRepository.findAll(pageable);
+  }
+
+
+  @Override
   public List<Process> findAll() {
     return processRepository.findAll();
   }
@@ -50,22 +53,18 @@ public class ProcessServiceImpl implements ProcessService {
 
   @Override
   public Process save(ProcessForm form) {
-    Process data = new Process();
-    BeanUtils.copyProperties(form,data);
-    data.setId(null);
-    return processRepository.save(data);
+    form.setId(null);
+    return update(form);
   }
 
   @Override
   public Process update(ProcessForm form) {
     Process data = new Process();
-    data.setTypeId(dictionaryService.findOne(form.getTypeId()));
-    data.setScheduleId(dictionaryService.findOne(form.getScheduleId()));
-
-
-
     BeanUtils.copyProperties(form,data);
 
+    data.setTypeId(dictionaryService.findOne(form.getTypeId()));
+    data.setScheduleId(dictionaryService.findOne(form.getScheduleId()));
+    data.setProcessTime(dictionaryService.findOne(form.getProcessTime()));
 
     return processRepository.save(data);
   }

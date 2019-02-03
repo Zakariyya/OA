@@ -9,13 +9,18 @@ import anan.oa.manage.orm.Process;
 import anan.base.core.util.ResultVOUtil;
 import anan.base.core.vo.ResultVO;
 import anan.oa.manage.service.ProcessService;
+import anan.oa.rbac.orm.User;
+import anan.oa.web.security.AuthenticationFacade;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,18 +39,33 @@ public class ProcessController {
 
   @Autowired
   private Process2ProcessDto p2p;
+
+  @Autowired
+  private AuthenticationFacade authenticationFacade;
+
+
+
+  /**
+   * findAll by page
+   * @return ResultVO<Category>
+   */
+  @GetMapping("/{page}/{size}")
+  public ResultVO findAll(@PathVariable(value = "page") Integer page,
+                          @PathVariable(value = "size") Integer size) throws InstantiationException, IllegalAccessException {
+    PageRequest request = PageRequest.of(page - 1, size);
+    Page<Process> all = processService.findAll(request);
+    List<ProcessDto> convert = p2p.convert(all.getContent(), ProcessDto.class);
+    return ResultVOUtil.success(new PageImpl<>(convert, request, all.getTotalElements()));
+  }
+
   /**
    * findAll
    *
    */
   @GetMapping("")
-  public ResultVO findAll(){
+  public ResultVO findAll() throws InstantiationException, IllegalAccessException {
     List<Process> all = processService.findAll();
-    List<ProcessDto> pdto = new ArrayList<>();
-    for (Process item : all) {
-      pdto.add(p2p.convert(item));
-    }
-    return ResultVOUtil.success(pdto);
+      return ResultVOUtil.success(p2p.convert(all, ProcessDto.class));
   }
 
   /**
@@ -68,6 +88,8 @@ public class ProcessController {
   @PostMapping("")
   public ResultVO add(@Valid @RequestBody ProcessForm data, BindingResult bindingResult){
     data.setId(null);
+    val user = (User) authenticationFacade.getAuthentication().getPrincipal();
+    data.setCreateUserId(user);
     return save(null, data, bindingResult);
   }
 
@@ -83,13 +105,17 @@ public class ProcessController {
    * @return ResultVO
    */
   @ResponseBody
-  @PutMapping("/{id}")
+  @PostMapping("/{id}")
   public ResultVO save(@PathVariable("id") Integer id, @Valid @RequestBody ProcessForm data, BindingResult bindingResult){
+
     data.setId(id);
     if (bindingResult.hasErrors()) {
       log.error("[manage模块-字典]参数不正确, Process={}", data);
       return ResultVOUtil.error(ResultEnum.PARAM_ERROR.getCode(), bindingResult.getFieldError().getDefaultMessage());
     }
+    val user = (User) authenticationFacade.getAuthentication().getPrincipal();
+    if(null != id)
+      data.setUpdateUserId(user);
     Process update = processService.update(data);
     return ResultVOUtil.success(update);
   }

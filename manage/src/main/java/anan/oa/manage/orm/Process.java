@@ -10,7 +10,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * @author anan
@@ -70,12 +70,20 @@ public class Process implements Serializable {
   private User approvalUserId;
 
   @Column(name = "create_time")
-  private Date createTime;
+  private Timestamp createTime;
 
   @Column(name = "update_time")
-  private Date updateTime;
+  private Timestamp updateTime;
 
   @Column(name = "remark")
   private String remark;
+
+//  public Long getCreateTime() {
+//    return this.createTime.getTime();
+//  }
+//
+//  public Long getUpdateTime() {
+//    return this.updateTime.getTime();
+//  }
 
 }

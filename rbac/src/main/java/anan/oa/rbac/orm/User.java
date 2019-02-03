@@ -10,7 +10,7 @@ import org.hibernate.annotations.SortNatural;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.Set;
 
 /**
@@ -69,7 +69,7 @@ public class User implements Serializable {
    * last login time
    */
   @Column(name = "last_time")
-  private Date lastTime;
+  private Timestamp lastTime;
 
 
 

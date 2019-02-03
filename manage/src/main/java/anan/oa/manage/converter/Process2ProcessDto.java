@@ -1,5 +1,6 @@
 package anan.oa.manage.converter;
 
+import anan.base.core.converter.CoreConverter;
 import anan.oa.manage.dto.ProcessDto;
 import anan.oa.manage.orm.Process;
 import anan.oa.manage.service.ProcessService;
@@ -8,6 +9,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author anan
@@ -24,11 +28,13 @@ import java.sql.Timestamp;
  *
  */
 @Component
-public class Process2ProcessDto {
+public class Process2ProcessDto extends CoreConverter<Process,ProcessDto> {
 
   @Autowired
   protected ProcessService service;
   private static Process2ProcessDto  p2p ;
+
+  @Override
   @PostConstruct //通过@PostConstruct实现初始化bean之前进行的操作
   public void init() {
     p2p = this;
@@ -36,17 +42,21 @@ public class Process2ProcessDto {
     // 初使化时将已静态化的testService实例化
   }
 
-  public ProcessDto convert(Process data) {
-    ProcessDto dto = new ProcessDto();
+  @Override
+  public ProcessDto set(Process data, ProcessDto dto){
+    dto.setId(data.getId());
     dto.setName(data.getName());
     dto.setType(data.getScheduleId().getOptionValue());
     dto.setSchedule(data.getScheduleId().getOptionValue());
-//    dto.setProcessTime(data.getProcessTime().getOptionValue());
+    dto.setProcessTime(data.getProcessTime().getOptionValue());
+    dto.setCreateUserName(data.getCreateUserId().getAccount());
+    if(data.getUpdateUserId()!=null)dto.setUpdateUserName(data.getUpdateUserId().getAccount());
+    if(data.getApprovalUserId()!=null)dto.setApprovalUserName(data.getApprovalUserId().getAccount());
     dto.setRemark(data.getRemark());
-    dto.setCreateTime(Timestamp.valueOf(data.getCreateTime().toString()).getTime());//都一样的
-    dto.setUpdateTime(data.getUpdateTime().getTime());//都一样的
+    dto.setCreateTime(data.getCreateTime());
+    dto.setUpdateTime(data.getUpdateTime());
     return dto;
-  }
 
+  }
 
 }

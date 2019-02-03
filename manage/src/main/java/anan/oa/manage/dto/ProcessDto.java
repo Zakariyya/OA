@@ -1,9 +1,8 @@
 package anan.oa.manage.dto;
 
-import anan.oa.rbac.orm.User;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
+import java.sql.Timestamp;
 
 /**
  * @author anan
@@ -23,15 +22,15 @@ public class ProcessDto {
 
   private String processTime;
 
-  private User createUserId;
+  private String createUserName;
 
-  private User updateUserId;
+  private String updateUserName;
 
-  private User approvalUserId;
+  private String approvalUserName;
 
-  private Long createTime;
+  private Timestamp createTime;
 
-  private Long updateTime;
+  private Timestamp updateTime;
 
   private String remark;
 

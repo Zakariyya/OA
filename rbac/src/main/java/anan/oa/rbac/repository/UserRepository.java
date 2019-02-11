@@ -1,10 +1,12 @@
 package anan.oa.rbac.repository;
 
+import anan.oa.rbac.RbacTable;
 import anan.oa.rbac.orm.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
 
 /**
  * @author anan
@@ -12,5 +14,9 @@ import java.util.List;
  */
 public interface UserRepository  extends JpaRepository<User, Integer>{//, JpaSpecificationExecutor<Role> {
 
-  List<User> findByAccount(String account);
+  User findByAccount(String account);
+
+  @Modifying
+  @Query(value = "update " + RbacTable.user + " set department_id = ?1  where id = ?2", nativeQuery = true)
+  Integer updateDepartmentIdById(Integer department_id, Integer user_id);
 }

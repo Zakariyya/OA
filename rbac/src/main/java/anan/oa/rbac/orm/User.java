@@ -1,6 +1,7 @@
 package anan.oa.rbac.orm;
 
 import anan.oa.rbac.RbacTable;
+import anan.oa.rbac.enums.UserEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NonNull;
@@ -29,6 +30,13 @@ public class User implements Serializable {
   @GeneratedValue(strategy= GenerationType.IDENTITY)
   private Integer id;
 
+  /**
+   * 不做对象处理，防止循环查找
+   */
+  @Column(name = "department_id")
+  private Integer departmentId;
+
+
   @Column(name = "account")
   @NotNull(message = "account cannot be null")
   private String account;
@@ -47,7 +55,7 @@ public class User implements Serializable {
    * package com.anan.springboot.auth.enums;
    */
   @Column(name = "sex")
-  private Integer sex;
+  private UserEnum sex;
 
   @Column(name = "email")
   private String email;

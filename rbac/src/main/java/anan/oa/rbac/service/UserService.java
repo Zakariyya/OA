@@ -18,6 +18,8 @@ public interface UserService {
 
   User update(User data) ;
 
+  Integer updateDepartmentIdById(User user);
+
   ResponseResult delete(String id, ResponseResult result);
 
 

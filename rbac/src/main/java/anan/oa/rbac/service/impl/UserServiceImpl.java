@@ -54,6 +54,11 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public Integer updateDepartmentIdById(User user) {
+    return userRepository.updateDepartmentIdById(user.getDepartmentId(), user.getId());
+  }
+
+  @Override
   public ResponseResult delete(String id, ResponseResult result) {
     return baseService.delete(id, userRepository, result);
   }

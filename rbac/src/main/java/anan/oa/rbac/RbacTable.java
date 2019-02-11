@@ -11,6 +11,13 @@ public interface RbacTable {
 
   String dictionary = "rbac_dictionary";
 
+  String userAndDictionary = "rbac_user_dictionary";
+
+  String department = "rbac_department";
+
+  String userAndDepartment = "rbac_user_department";
+
+
 
 
 }

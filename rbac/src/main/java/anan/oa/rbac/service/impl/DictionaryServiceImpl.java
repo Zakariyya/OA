@@ -30,6 +30,16 @@ public class DictionaryServiceImpl implements DictionaryService {
   }
 
   @Override
+  public List<Dictionary> findAllByDictType(String dictType) {
+    return dictionaryRepoitory.findAllByDictType(dictType);
+  }
+
+  @Override
+  public Dictionary findAllByDictTypeAndOptionValue(String dictType,String optionValue) {
+    return dictionaryRepoitory.findAllByDictTypeAndOptionValue(dictType,optionValue);
+  }
+
+  @Override
   public Dictionary findOne(Integer id) {
     return dictionaryRepoitory.findById(id).get();
   }

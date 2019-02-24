@@ -33,12 +33,32 @@ CREATE TABLE `manage_process` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '流程备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='流程表';
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='流程表';
 
 /*Data for the table `manage_process` */
 
 insert  into `manage_process`(`id`,`name`,`type_id`,`schedule_id`,`process_time`,`create_user_id`,`update_user_id`,`approval_user_id`,`create_time`,`update_time`,`remark`) values 
-(1,'aa',104,111,NULL,1,1,NULL,'2019-01-25 18:14:02','2019-01-25 18:14:11',NULL);
+(1,'aa',104,111,128,1,1,NULL,'2019-01-25 18:14:02','2019-01-31 00:05:28',NULL),
+(12,'ss',104,111,128,1,1,NULL,'2019-01-29 15:49:12','2019-01-30 23:58:56',''),
+(13,'ss',104,111,128,1,NULL,NULL,'2019-01-28 15:33:37','2019-01-30 23:59:01',''),
+(14,'ss',104,111,128,1,NULL,NULL,'2019-01-29 15:49:39','2019-01-29 15:49:39',''),
+(15,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:16','2019-01-30 23:41:16',''),
+(16,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:19','2019-01-30 23:41:19',''),
+(17,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:19','2019-01-30 23:41:19',''),
+(18,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:20','2019-01-30 23:41:20',''),
+(19,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:20','2019-01-30 23:41:20',''),
+(20,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:20','2019-01-30 23:41:20',''),
+(21,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:20','2019-01-30 23:41:20',''),
+(22,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:20','2019-01-30 23:41:20',''),
+(23,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:20','2019-01-30 23:41:20',''),
+(24,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:21','2019-01-30 23:41:21',''),
+(25,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:21','2019-01-30 23:41:21',''),
+(26,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:21','2019-01-30 23:41:21',''),
+(27,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:21','2019-01-30 23:41:21',''),
+(28,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:21','2019-01-30 23:41:21',''),
+(29,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:21','2019-01-30 23:41:21',''),
+(30,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:22','2019-01-30 23:41:22',''),
+(31,'ss',104,111,128,1,NULL,NULL,'2019-01-30 23:41:22','2019-01-30 23:41:22','');
 
 /*Table structure for table `manage_process_log` */
 
@@ -55,6 +75,21 @@ CREATE TABLE `manage_process_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='流程生命表（日志表）\r\n用于记录流程的开始到审批结束';
 
 /*Data for the table `manage_process_log` */
+
+/*Table structure for table `rbac_department` */
+
+DROP TABLE IF EXISTS `rbac_department`;
+
+CREATE TABLE `rbac_department` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `parent_id` int(11) DEFAULT NULL COMMENT '上级ID（空则无上级）',
+  `name` varchar(128) NOT NULL COMMENT '部门名称',
+  `approval_user_id` int(11) NOT NULL COMMENT '审核人ID，与rbac_user表关联',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='部门表\r\n';
+
+/*Data for the table `rbac_department` */
 
 /*Table structure for table `rbac_dictionary` */
 
@@ -73,7 +108,7 @@ CREATE TABLE `rbac_dictionary` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `dict_type` (`dict_type`,`option_value`),
   FULLTEXT KEY `sys_dict_option` (`dict_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8 COMMENT='选项字典dictionary\r\n（用来存储role+menu+流程状态）';
+) ENGINE=InnoDB AUTO_INCREMENT=132 DEFAULT CHARSET=utf8 COMMENT='选项字典dictionary\r\n（用来存储role+menu+流程状态）';
 
 /*Data for the table `rbac_dictionary` */
 
@@ -138,6 +173,7 @@ DROP TABLE IF EXISTS `rbac_user`;
 
 CREATE TABLE `rbac_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `department_id` int(11) DEFAULT NULL COMMENT '部门ID',
   `account` varchar(64) COLLATE utf8mb4_bin NOT NULL COMMENT '账户',
   `password` varchar(256) COLLATE utf8mb4_bin NOT NULL COMMENT '密码',
   `name` varchar(32) COLLATE utf8mb4_bin NOT NULL COMMENT '昵称',
@@ -150,14 +186,28 @@ CREATE TABLE `rbac_user` (
   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   UNIQUE KEY `account` (`account`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户表';
 
 /*Data for the table `rbac_user` */
 
-insert  into `rbac_user`(`id`,`account`,`password`,`name`,`sex`,`email`,`phone`,`last_ip`,`last_time`,`create_time`,`update_time`) values 
-(1,'admin','$2a$04$1OiUa3yEchBXQBJI8JaMyuKZNlwzWvfeQjKAHnwAEQwnacjt6ukqu','admin',0,NULL,NULL,NULL,'2018-08-23 10:36:37','2018-08-23 10:36:37','2018-08-23 10:36:37'),
-(23,'anan1527','$2a$10$gU7PXeWhJOLA.gi34J/Ubu099mPmd9innx3aHzQSG1Jx/jcVXyJra','anan-name',NULL,NULL,NULL,NULL,'2019-01-24 15:28:08','2019-01-24 15:28:08','2019-01-24 15:28:08'),
-(24,'anan1529','$2a$10$AS1fNDwjmGFaXZv6BuIgKuaWofLU5.zm/HMf9RZeDq.bfHf7xDzYO','anan-name29',NULL,NULL,NULL,NULL,'2019-01-24 15:29:53','2019-01-24 15:29:53','2019-01-24 15:29:53');
+insert  into `rbac_user`(`id`,`department_id`,`account`,`password`,`name`,`sex`,`email`,`phone`,`last_ip`,`last_time`,`create_time`,`update_time`) values 
+(1,NULL,'admin','$2a$04$1OiUa3yEchBXQBJI8JaMyuKZNlwzWvfeQjKAHnwAEQwnacjt6ukqu','admin',0,NULL,NULL,NULL,'2018-08-23 10:36:37','2018-08-23 10:36:37','2018-08-23 10:36:37'),
+(23,NULL,'anan1527','$2a$10$gU7PXeWhJOLA.gi34J/Ubu099mPmd9innx3aHzQSG1Jx/jcVXyJra','anan-name',NULL,NULL,NULL,NULL,'2019-01-24 15:28:08','2019-01-24 15:28:08','2019-01-24 15:28:08'),
+(24,2,'anan1529','$2a$10$AS1fNDwjmGFaXZv6BuIgKuaWofLU5.zm/HMf9RZeDq.bfHf7xDzYO','anan-name29',NULL,NULL,NULL,NULL,'2019-02-09 11:52:58','2019-01-24 15:29:53','2019-02-09 11:52:58');
+
+/*Table structure for table `rbac_user_department` */
+
+DROP TABLE IF EXISTS `rbac_user_department`;
+
+CREATE TABLE `rbac_user_department` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
+  `department_id` int(11) NOT NULL COMMENT '部门ID',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UNIQUE` (`user_id`,`department_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户_部门_中间表';
+
+/*Data for the table `rbac_user_department` */
 
 /*Table structure for table `rbac_user_role` */
 

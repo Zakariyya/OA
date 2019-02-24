@@ -13,6 +13,10 @@ public interface DictionaryService {
 
   List<Dictionary> findAll();
 
+  List<Dictionary> findAllByDictType(String dictType);
+
+  Dictionary findAllByDictTypeAndOptionValue(String dictType,String optionValue);
+
   Dictionary findOne(Integer id);
 
   Dictionary save(Dictionary data);

@@ -11,11 +11,14 @@ public interface RbacTable {
 
   String dictionary = "rbac_dictionary";
 
-  String userAndDictionary = "rbac_user_dictionary";
+  String userAndRole = "rbac_user_role";
 
   String department = "rbac_department";
 
   String userAndDepartment = "rbac_user_department";
+
+
+  String menu = "rabc_menu";
 
 
 

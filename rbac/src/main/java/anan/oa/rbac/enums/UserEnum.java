@@ -3,6 +3,7 @@ package anan.oa.rbac.enums;
 import anan.base.core.enums.ResultEnum;
 import lombok.Getter;
 
+
 @Getter
 public enum UserEnum {
 

@@ -1,34 +1,32 @@
 package anan.oa.rbac.orm;
 
 import anan.oa.rbac.RbacTable;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 /**
  * @author anan
- * Created on 2018/8/27.
- *
- * watch Dictionary class
- *
+ * @created 2019/2/23 15:55
  */
-@Entity(name= RbacTable.userAndRole)
+@Entity(name= RbacTable.menu)
 @Data
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class UserAndRole {
+@DynamicUpdate
+public class MenuAndRole {
 
   @Id
   @Column(name = "id")
   @GeneratedValue(strategy= GenerationType.IDENTITY)
   private Integer id;
 
-  @JoinColumn(name="user_id")
+  @JoinColumn(name="menu_id")
   @ManyToOne(cascade = CascadeType.REFRESH, optional = true, fetch = FetchType.EAGER)
-  private User user;
+  private Menu menu;
 
   @JoinColumn(name="role_id")
   @ManyToOne(cascade = CascadeType.REFRESH, optional = true, fetch = FetchType.EAGER)
   private Dictionary role;
+
 
 }

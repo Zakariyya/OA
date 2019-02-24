@@ -20,9 +20,10 @@ public class DepartmentForm {
 
   private Integer parentId;
 
-
+  @NotNull(message = "部门名称不能为空")
   private String name;
 
+  @NotNull(message = "审核人不能为空")
   private Integer approvalUserId;
 
   /**

@@ -21,7 +21,7 @@ import java.util.Set;
 @Entity(name= RbacTable.user)
 @Data
 @DynamicUpdate
-public class User implements Serializable {
+public class User implements Serializable,Comparable<User>{
 
   private static final long serialVersionUID = 6650020328552169838L;
 
@@ -86,5 +86,9 @@ public class User implements Serializable {
 //  @SortNatural
 //  private Set<Role> roles;
 
+  @Override
+  public int compareTo(User o) {
+    return  Integer.compare(this.id, o.id);
+  }
 
 }
